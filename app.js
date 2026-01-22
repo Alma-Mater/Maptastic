@@ -28,6 +28,12 @@ const path = d3.geoPath().projection(projection);
 
 console.log('SVG dimensions:', width, height);
 
+
+// Stats box elements
+const statsBox = document.getElementById('stats-box');
+const countriesLeftSpan = document.getElementById('countries-left');
+const countriesPercentSpan = document.getElementById('countries-percent');
+
 // Zoom behavior
 const zoom = d3.zoom()
     .scaleExtent([1, 8])
@@ -36,6 +42,15 @@ const zoom = d3.zoom()
     });
 
 svg.call(zoom);
+
+function updateStatsBox() {
+    const totalCountries = countriesData.length || 196;
+    const guessed = previousSelections.size + (currentSelection ? 1 : 0);
+    const left = totalCountries - guessed;
+    const percent = totalCountries > 0 ? Math.round((guessed / totalCountries) * 100) : 0;
+    if (countriesLeftSpan) countriesLeftSpan.textContent = `Countries left: ${left}`;
+    if (countriesPercentSpan) countriesPercentSpan.textContent = `Guessed: ${percent}%`;
+}
 
 // Load world map data
 const worldDataUrl = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json';
@@ -93,14 +108,15 @@ function handleCountryClick(event, d) {
     if (isCurrentSelection || isPreviousSelection) {
         // Toggle off - remove selection
         countryElement.classList.remove('current-selection', 'previous-selection');
-        
+
         // Remove label
         svg.select(`text[data-country="${countryName}"]`).remove();
-        
+
         if (currentSelection === countryName) {
             currentSelection = null;
         }
         previousSelections.delete(countryName);
+        updateStatsBox();
     } else {
         // Show tooltip temporarily
         showTooltipTemporarily(event, countryName);
@@ -199,6 +215,7 @@ function selectCountry(countryName) {
     // Clear search
     searchInput.value = '';
     suggestionMessage.classList.add('hidden');
+    updateStatsBox();
 }
 
 // Find closest country match using Levenshtein distance
@@ -352,6 +369,7 @@ resetBtn.addEventListener('click', () => {
     // Clear search
     searchInput.value = '';
     suggestionMessage.classList.add('hidden');
+    updateStatsBox();
 });
 
 // Close suggestion message when clicking outside
