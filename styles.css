@@ -57,14 +57,16 @@ body {
 @media (max-width: 600px) {
     #stats-box {
         top: 8px;
-        left: 50%;
-        transform: translateX(-50%);
-        min-width: 140px;
-        padding: 10px 12px;
-        font-size: 1rem;
+        left: 12px;
+        right: auto;
+        transform: none;
+        min-width: 120px;
+        max-width: 70vw;
+        padding: 8px 10px;
+        font-size: 0.95rem;
         border-radius: 10px;
         box-shadow: 0 2px 8px rgba(0,0,0,0.18);
-        text-align: center;
+        text-align: left;
         z-index: 20;
     }
     #search-container {
