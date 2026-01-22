@@ -57,21 +57,21 @@ body {
 @media (max-width: 600px) {
     #stats-box {
         top: 8px;
-        left: 12px;
+        left: 8px;
         right: auto;
         transform: none;
-        min-width: 120px;
-        max-width: 70vw;
-        padding: 8px 10px;
-        font-size: 0.95rem;
-        border-radius: 10px;
+        min-width: 90px;
+        max-width: 60vw;
+        padding: 5px 8px;
+        font-size: 0.85rem;
+        border-radius: 8px;
         box-shadow: 0 2px 8px rgba(0,0,0,0.18);
         text-align: left;
         z-index: 20;
     }
     #search-container {
         position: absolute;
-        top: 56px;
+        bottom: 12px;
         left: 50%;
         transform: translateX(-50%);
         width: 98vw;
@@ -79,7 +79,7 @@ body {
         margin-top: 0;
         margin-bottom: 0;
         z-index: 30;
-        bottom: unset !important;
+        top: unset !important;
     }
 }
 .country {
