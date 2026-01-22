@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Maptastic - Interactive World Map</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="map-container">
+        <svg id="map"></svg>
+        
+        <!-- Country name tooltip -->
+        <div id="country-tooltip" class="hidden"></div>
+        
+        <!-- Search container -->
+        <div id="search-container">
+            <div id="search-box">
+                <input 
+                    type="text" 
+                    id="country-search" 
+                    placeholder="Search for a country..." 
+                    autocomplete="off"
+                />
+                <button id="search-btn">Search</button>
+                <button id="reset-btn">Reset All</button>
+            </div>
+            <div id="suggestion-message" class="hidden"></div>
+        </div>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/topojson@3"></script>
+    <script src="app.js"></script>
+</body>
+</html>
