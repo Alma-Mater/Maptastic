@@ -1,0 +1,197 @@
+Canonical Name,Map Data Name,Match Type,Distance
+"Afghanistan","Afghanistan","EXACT",0
+"Albania","Albania","EXACT",0
+"Algeria","Algeria","EXACT",0
+"Andorra","Andorra","EXACT",0
+"Angola","Angola","EXACT",0
+"Antigua","Antigua and Barb.","PARTIAL",10
+"Argentina","Argentina","EXACT",0
+"Armenia","Armenia","EXACT",0
+"Australia","Australia","EXACT",0
+"Austria","Austria","EXACT",0
+"Azerbaijan","Azerbaijan","EXACT",0
+"Bahamas","Bahamas","EXACT",0
+"Bahrain","Bahrain","EXACT",0
+"Bangladesh","Bangladesh","EXACT",0
+"Barbados","Barbados","EXACT",0
+"Belarus","Belarus","EXACT",0
+"Belgium","Belgium","EXACT",0
+"Belize","Belize","EXACT",0
+"Benin","Benin","EXACT",0
+"Bhutan","Bhutan","EXACT",0
+"Bolivia","Bolivia","EXACT",0
+"Bosnia Herzegovina","","NO_MATCH",999
+"Botswana","Botswana","EXACT",0
+"Brazil","Brazil","EXACT",0
+"Brunei","Brunei","EXACT",0
+"Bulgaria","Bulgaria","EXACT",0
+"Burkina","Burkina Faso","PARTIAL",5
+"Burundi","Burundi","EXACT",0
+"Cambodia","Cambodia","EXACT",0
+"Cameroon","Cameroon","EXACT",0
+"Canada","Canada","EXACT",0
+"Cape Verde","Cabo Verde","FUZZY",2
+"Central African Republic","Central African Rep.","FUZZY",5
+"Chad","Chad","EXACT",0
+"Chile","Chile","EXACT",0
+"China","China","EXACT",0
+"Colombia","Colombia","EXACT",0
+"Comoros","Comoros","EXACT",0
+"Congo","Congo","EXACT",0
+"Congo","Congo","EXACT",0
+"Costa Rica","Costa Rica","EXACT",0
+"Croatia","Croatia","EXACT",0
+"Cuba","Cuba","EXACT",0
+"Cyprus","Cyprus","EXACT",0
+"Czech Republic","Czechia","FUZZY",8
+"Denmark","Denmark","EXACT",0
+"Djibouti","Djibouti","EXACT",0
+"Dominica","Dominica","EXACT",0
+"Dominican Republic","Dominica","PARTIAL",10
+"East Timor","eSwatini","FUZZY",6
+"Ecuador","Ecuador","EXACT",0
+"Egypt","Egypt","EXACT",0
+"El Salvador","El Salvador","EXACT",0
+"Equatorial Guinea","Guinea","PARTIAL",11
+"Eritrea","Eritrea","EXACT",0
+"Estonia","Estonia","EXACT",0
+"Ethiopia","Ethiopia","EXACT",0
+"Fiji","Fiji","EXACT",0
+"Finland","Finland","EXACT",0
+"France","France","EXACT",0
+"Gabon","Gabon","EXACT",0
+"Gambia","Gambia","EXACT",0
+"Georgia","Georgia","EXACT",0
+"Germany","Germany","EXACT",0
+"Ghana","Ghana","EXACT",0
+"Greece","Greece","EXACT",0
+"Grenada","Grenada","EXACT",0
+"Guatemala","Guatemala","EXACT",0
+"Guinea","Guinea","EXACT",0
+"Guinea-Bissau","Guinea-Bissau","EXACT",0
+"Guyana","Guyana","EXACT",0
+"Haiti","Haiti","EXACT",0
+"Honduras","Honduras","EXACT",0
+"Hungary","Hungary","EXACT",0
+"Iceland","Iceland","EXACT",0
+"India","India","EXACT",0
+"Indonesia","Indonesia","EXACT",0
+"Iran","Iran","EXACT",0
+"Iraq","Iraq","EXACT",0
+"Ireland","Ireland","EXACT",0
+"Israel","Israel","EXACT",0
+"Italy","Italy","EXACT",0
+"Ivory Coast","Morocco","FUZZY",7
+"Jamaica","Jamaica","EXACT",0
+"Japan","Japan","EXACT",0
+"Jordan","Jordan","EXACT",0
+"Kazakhstan","Kazakhstan","EXACT",0
+"Kenya","Kenya","EXACT",0
+"Kiribati","Kiribati","EXACT",0
+"North Korea","North Korea","EXACT",0
+"South Korea","South Korea","EXACT",0
+"Kosovo","Kosovo","EXACT",0
+"Kuwait","Kuwait","EXACT",0
+"Kyrgyzstan","Kyrgyzstan","EXACT",0
+"Laos","Laos","EXACT",0
+"Latvia","Latvia","EXACT",0
+"Lebanon","Lebanon","EXACT",0
+"Lesotho","Lesotho","EXACT",0
+"Liberia","Liberia","EXACT",0
+"Libya","Libya","EXACT",0
+"Liechtenstein","Liechtenstein","EXACT",0
+"Lithuania","Lithuania","EXACT",0
+"Luxembourg","Luxembourg","EXACT",0
+"Madagascar","Madagascar","EXACT",0
+"Malawi","Malawi","EXACT",0
+"Malaysia","Malaysia","EXACT",0
+"Maldives","Maldives","EXACT",0
+"Mali","Mali","EXACT",0
+"Malta","Malta","EXACT",0
+"Marshall Islands","Marshall Is.","FUZZY",5
+"Mauritania","Mauritania","EXACT",0
+"Mauritius","Mauritius","EXACT",0
+"Mexico","Mexico","EXACT",0
+"Micronesia","Micronesia","EXACT",0
+"Moldova","Moldova","EXACT",0
+"Monaco","Monaco","EXACT",0
+"Mongolia","Mongolia","EXACT",0
+"Montenegro","Montenegro","EXACT",0
+"Morocco","Morocco","EXACT",0
+"Mozambique","Mozambique","EXACT",0
+"Myanmar","Myanmar","EXACT",0
+"Namibia","Namibia","EXACT",0
+"Nauru","Nauru","EXACT",0
+"Nepal","Nepal","EXACT",0
+"Netherlands","Netherlands","EXACT",0
+"New Zealand","New Zealand","EXACT",0
+"Nicaragua","Nicaragua","EXACT",0
+"Niger","Niger","EXACT",0
+"Nigeria","Nigeria","EXACT",0
+"North Macedonia","Macedonia","PARTIAL",6
+"Norway","Norway","EXACT",0
+"Oman","Oman","EXACT",0
+"Pakistan","Pakistan","EXACT",0
+"Palau","Palau","EXACT",0
+"Panama","Panama","EXACT",0
+"Papua New Guinea","Papua New Guinea","EXACT",0
+"Paraguay","Paraguay","EXACT",0
+"Peru","Peru","EXACT",0
+"Philippines","Philippines","EXACT",0
+"Poland","Poland","EXACT",0
+"Portugal","Portugal","EXACT",0
+"Qatar","Qatar","EXACT",0
+"Romania","Romania","EXACT",0
+"Russia","Russia","EXACT",0
+"Rwanda","Rwanda","EXACT",0
+"St Kitts & Nevis","St. Kitts and Nevis","FUZZY",4
+"St Lucia","Saint Lucia","FUZZY",3
+"Saint Vincent & the Grenadines","","NO_MATCH",999
+"Samoa","Samoa","EXACT",0
+"San Marino","San Marino","EXACT",0
+"Sao Tome & Principe","São Tomé and Principe","FUZZY",5
+"Saudi Arabia","Saudi Arabia","EXACT",0
+"Senegal","Senegal","EXACT",0
+"Serbia","Serbia","EXACT",0
+"Seychelles","Seychelles","EXACT",0
+"Sierra Leone","Sierra Leone","EXACT",0
+"Singapore","Singapore","EXACT",0
+"Slovakia","Slovakia","EXACT",0
+"Slovenia","Slovenia","EXACT",0
+"Solomon Islands","Solomon Is.","FUZZY",5
+"Somalia","Somalia","EXACT",0
+"South Africa","South Africa","EXACT",0
+"South Sudan","Sudan","PARTIAL",6
+"Spain","Spain","EXACT",0
+"Sri Lanka","Sri Lanka","EXACT",0
+"Sudan","Sudan","EXACT",0
+"Suriname","Suriname","EXACT",0
+"Swaziland","Thailand","FUZZY",3
+"Sweden","Sweden","EXACT",0
+"Switzerland","Switzerland","EXACT",0
+"Syria","Syria","EXACT",0
+"Taiwan","Taiwan","EXACT",0
+"Tajikistan","Tajikistan","EXACT",0
+"Tanzania","Tanzania","EXACT",0
+"Thailand","Thailand","EXACT",0
+"Togo","Togo","EXACT",0
+"Tonga","Tonga","EXACT",0
+"Trinidad & Tobago","Trinidad and Tobago","FUZZY",3
+"Tunisia","Tunisia","EXACT",0
+"Turkey","Turkey","EXACT",0
+"Turkmenistan","Turkmenistan","EXACT",0
+"Tuvalu","Guam","FUZZY",4
+"Uganda","Uganda","EXACT",0
+"Ukraine","Ukraine","EXACT",0
+"United Arab Emirates","United Arab Emirates","EXACT",0
+"United Kingdom","United Kingdom","EXACT",0
+"United States","United States of America","PARTIAL",11
+"Uruguay","Uruguay","EXACT",0
+"Uzbekistan","Uzbekistan","EXACT",0
+"Vanuatu","Vanuatu","EXACT",0
+"Vatican City","Vatican","PARTIAL",5
+"Venezuela","Venezuela","EXACT",0
+"Vietnam","Vietnam","EXACT",0
+"Yemen","Yemen","EXACT",0
+"Zambia","Zambia","EXACT",0
+"Zimbabwe","Zimbabwe","EXACT",0

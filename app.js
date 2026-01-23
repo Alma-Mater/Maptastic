@@ -1,3 +1,210 @@
+// Mapping from map data names to canonical country names
+const mapToCanonicalName = {
+  "Afghanistan": "Afghanistan",
+  "Albania": "Albania",
+  "Algeria": "Algeria",
+  "American Samoa": "Samoa",
+  "Andorra": "Andorra",
+  "Angola": "Angola",
+  "Antigua and Barb.": "Antigua & Barbuda",
+  "Argentina": "Argentina",
+  "Armenia": "Armenia",
+  "Australia": "Australia",
+  "Austria": "Austria",
+  "Azerbaijan": "Azerbaijan",
+  "Bahamas": "Bahamas",
+  "Bahrain": "Bahrain",
+  "Bangladesh": "Bangladesh",
+  "Barbados": "Barbados",
+  "Belarus": "Belarus",
+  "Belgium": "Belgium",
+  "Belize": "Belize",
+  "Benin": "Benin",
+  "Bhutan": "Bhutan",
+  "Bolivia": "Bolivia",
+  "Bosnia and Herz.": "Bosnia & Herzegovina",
+  "Botswana": "Botswana",
+  "Brazil": "Brazil",
+  "Brunei": "Brunei",
+  "Bulgaria": "Bulgaria",
+  "Burkina Faso": "Burkina",
+  "Burundi": "Burundi",
+  "Cabo Verde": "Cape Verde",
+  "Cambodia": "Cambodia",
+  "Cameroon": "Cameroon",
+  "Canada": "Canada",
+  "Central African Rep.": "Central African Republic",
+  "Chad": "Chad",
+  "Chile": "Chile",
+  "China": "China",
+  "Colombia": "Colombia",
+  "Comoros": "Comoros",
+  "Congo": "Congo",
+  "Costa Rica": "Costa Rica",
+  "Côte d'Ivoire": "Ivory Coast",
+  "Croatia": "Croatia",
+  "Cuba": "Cuba",
+  "Cyprus": "Cyprus",
+  "Czechia": "Czech Republic",
+  "Dem. Rep. Congo": "Congo",
+  "Denmark": "Denmark",
+  "Djibouti": "Djibouti",
+  "Dominica": "Dominica",
+  "Dominican Rep.": "Dominican Republic",
+  "Ecuador": "Ecuador",
+  "Egypt": "Egypt",
+  "El Salvador": "El Salvador",
+  "Eq. Guinea": "Equatorial Guinea",
+  "Eritrea": "Eritrea",
+  "Estonia": "Estonia",
+  "Ethiopia": "Ethiopia",
+  "Fiji": "Fiji",
+  "Finland": "Finland",
+  "France": "France",
+  "Gabon": "Gabon",
+  "Gambia": "Gambia",
+  "Georgia": "Georgia",
+  "Germany": "Germany",
+  "Ghana": "Ghana",
+  "Greece": "Greece",
+  "Grenada": "Grenada",
+  "Guatemala": "Guatemala",
+  "Guinea": "Guinea",
+  "Guinea-Bissau": "Guinea-Bissau",
+  "Guyana": "Guyana",
+  "Haiti": "Haiti",
+  "Honduras": "Honduras",
+  "Hungary": "Hungary",
+  "Iceland": "Iceland",
+  "India": "India",
+  "Indonesia": "Indonesia",
+  "Iran": "Iran",
+  "Iraq": "Iraq",
+  "Ireland": "Ireland",
+  "Israel": "Israel",
+  "Italy": "Italy",
+  "Jamaica": "Jamaica",
+  "Japan": "Japan",
+  "Jordan": "Jordan",
+  "Kazakhstan": "Kazakhstan",
+  "Kenya": "Kenya",
+  "Kiribati": "Kiribati",
+  "Kosovo": "Kosovo",
+  "Kuwait": "Kuwait",
+  "Kyrgyzstan": "Kyrgyzstan",
+  "Laos": "Laos",
+  "Latvia": "Latvia",
+  "Lebanon": "Lebanon",
+  "Lesotho": "Lesotho",
+  "Liberia": "Liberia",
+  "Libya": "Libya",
+  "Liechtenstein": "Liechtenstein",
+  "Lithuania": "Lithuania",
+  "Luxembourg": "Luxembourg",
+  "Macedonia": "North Macedonia",
+  "Madagascar": "Madagascar",
+  "Malawi": "Malawi",
+  "Malaysia": "Malaysia",
+  "Maldives": "Maldives",
+  "Mali": "Mali",
+  "Malta": "Malta",
+  "Marshall Is.": "Marshall Islands",
+  "Mauritania": "Mauritania",
+  "Mauritius": "Mauritius",
+  "Mexico": "Mexico",
+  "Micronesia": "Micronesia",
+  "Moldova": "Moldova",
+  "Monaco": "Monaco",
+  "Mongolia": "Mongolia",
+  "Montenegro": "Montenegro",
+  "Morocco": "Morocco",
+  "Mozambique": "Mozambique",
+  "Myanmar": "Myanmar",
+  "N. Cyprus": "Cyprus",
+  "Namibia": "Namibia",
+  "Nauru": "Nauru",
+  "Nepal": "Nepal",
+  "Netherlands": "Netherlands",
+  "New Zealand": "New Zealand",
+  "Nicaragua": "Nicaragua",
+  "Niger": "Niger",
+  "Nigeria": "Nigeria",
+  "North Korea": "North Korea",
+  "Norway": "Norway",
+  "Oman": "Oman",
+  "Pakistan": "Pakistan",
+  "Palau": "Palau",
+  "Palestine": "Palestine",
+  "Panama": "Panama",
+  "Papua New Guinea": "Papua New Guinea",
+  "Paraguay": "Paraguay",
+  "Peru": "Peru",
+  "Philippines": "Philippines",
+  "Poland": "Poland",
+  "Portugal": "Portugal",
+  "Qatar": "Qatar",
+  "Romania": "Romania",
+  "Russia": "Russia",
+  "Rwanda": "Rwanda",
+  "S. Sudan": "South Sudan",
+  "Saint Lucia": "St Lucia",
+  "Samoa": "Samoa",
+  "San Marino": "San Marino",
+  "São Tomé and Principe": "Sao Tome & Principe",
+  "Saudi Arabia": "Saudi Arabia",
+  "Senegal": "Senegal",
+  "Serbia": "Serbia",
+  "Seychelles": "Seychelles",
+  "Sierra Leone": "Sierra Leone",
+  "Singapore": "Singapore",
+  "Slovakia": "Slovakia",
+  "Slovenia": "Slovenia",
+  "Solomon Is.": "Solomon Islands",
+  "Somalia": "Somalia",
+  "South Africa": "South Africa",
+  "South Korea": "South Korea",
+  "Spain": "Spain",
+  "Sri Lanka": "Sri Lanka",
+  "St. Kitts and Nevis": "St Kitts & Nevis",
+  "St. Vin. and Gren.": "Saint Vincent & the Grenadines",
+  "Sudan": "Sudan",
+  "Suriname": "Suriname",
+  "Sweden": "Sweden",
+  "Switzerland": "Switzerland",
+  "Syria": "Syria",
+  "Taiwan": "Taiwan",
+  "Tajikistan": "Tajikistan",
+  "Tanzania": "Tanzania",
+  "Thailand": "Thailand",
+  "Timor-Leste": "East Timor",
+  "Togo": "Togo",
+  "Tonga": "Tonga",
+  "Trinidad and Tobago": "Trinidad & Tobago",
+  "Tunisia": "Tunisia",
+  "Turkey": "Turkey",
+  "Turkmenistan": "Turkmenistan",
+  "Uganda": "Uganda",
+  "Ukraine": "Ukraine",
+  "United Arab Emirates": "United Arab Emirates",
+  "United Kingdom": "United Kingdom",
+  "United States of America": "United States",
+  "Uruguay": "Uruguay",
+  "Uzbekistan": "Uzbekistan",
+  "Vanuatu": "Vanuatu",
+  "Vatican": "Vatican City",
+  "Venezuela": "Venezuela",
+  "Vietnam": "Vietnam",
+  "Yemen": "Yemen",
+  "Zambia": "Zambia",
+  "Zimbabwe": "Zimbabwe",
+  "eSwatini": "Swaziland",
+};
+
+// Canonical list of countries (user-facing names from mapping)
+const canonicalCountries = [
+  "Afghanistan","Albania","Algeria","Andorra","Angola","Antigua & Barbuda","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia","Bosnia & Herzegovina","Botswana","Brazil","Brunei","Bulgaria","Burkina","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Central African Republic","Chad","Chile","China","Colombia","Comoros","Congo","Costa Rica","Croatia","Cuba","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","East Timor","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Fiji","Finland","France","Gabon","Gambia","Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea","Guinea-Bissau","Guyana","Haiti","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Ivory Coast","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar","Namibia","Nauru","Nepal","Netherlands","New Zealand","Nicaragua","Niger","Nigeria","North Korea","North Macedonia","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Qatar","Romania","Russia","Rwanda","Saint Vincent & the Grenadines","Samoa","San Marino","Sao Tome & Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","St Kitts & Nevis","St Lucia","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Togo","Tonga","Trinidad & Tobago","Tunisia","Turkey","Turkmenistan","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"
+];
+
 // State management
 let currentSelection = null;
 let previousSelections = new Set();
@@ -44,7 +251,7 @@ const zoom = d3.zoom()
 svg.call(zoom);
 
 function updateStatsBox() {
-    const totalCountries = countriesData.length || 196;
+    const totalCountries = canonicalCountries.length;
     const guessed = previousSelections.size + (currentSelection ? 1 : 0);
     const left = totalCountries - guessed;
     const percent = totalCountries > 0 ? Math.round((guessed / totalCountries) * 100) : 0;
@@ -63,14 +270,21 @@ d3.json(worldDataUrl).then(data => {
     const countries = topojson.feature(data, data.objects.countries);
     console.log('Countries processed:', countries.features.length);
     
-    // Create countries array with names
-    countriesData = countries.features.map(d => ({
-        geometry: d,
-        name: d.properties.name || 'Unknown',
-        id: d.id
-    }));
+    // Filter and map countries using our mapping
+    countriesData = countries.features
+        .filter(d => {
+            const mapName = d.properties.name || 'Unknown';
+            return mapToCanonicalName.hasOwnProperty(mapName);
+        })
+        .map(d => ({
+            geometry: d,
+            mapName: d.properties.name || 'Unknown',
+            canonicalName: mapToCanonicalName[d.properties.name] || 'Unknown',
+            id: d.id
+        }));
     
-    console.log('Available countries:', countriesData.map(c => c.name).sort());
+    console.log('Filtered canonical countries:', countriesData.length);
+    console.log('Canonical names:', Array.from(new Set(countriesData.map(c => c.canonicalName))).sort());
 
     // Draw map
     const g = svg.append('g');
@@ -79,9 +293,13 @@ d3.json(worldDataUrl).then(data => {
         .data(countries.features)
         .enter()
         .append('path')
-        .attr('class', 'country')
+        .attr('class', d => {
+            const mapName = d.properties.name || 'Unknown';
+            return mapToCanonicalName.hasOwnProperty(mapName) ? 'country' : 'country excluded';
+        })
         .attr('d', path)
-        .attr('data-name', d => d.properties.name || 'Unknown')
+        .attr('data-map-name', d => d.properties.name || 'Unknown')
+        .attr('data-canonical-name', d => mapToCanonicalName[d.properties.name] || '')
         .attr('data-id', d => d.id)
         .on('click', handleCountryClick)
         .on('mouseenter', handleCountryHover)
@@ -98,7 +316,12 @@ d3.json(worldDataUrl).then(data => {
 function handleCountryClick(event, d) {
     event.stopPropagation();
     
-    const countryName = d.properties.name || 'Unknown';
+    const mapName = d.properties.name || 'Unknown';
+    const canonicalName = mapToCanonicalName[mapName];
+    
+    // Only handle if this is a mapped country
+    if (!canonicalName) return;
+    
     const countryElement = event.currentTarget;
     
     // Check if this country is already selected
@@ -110,34 +333,39 @@ function handleCountryClick(event, d) {
         countryElement.classList.remove('current-selection', 'previous-selection');
 
         // Remove label
-        svg.select(`text[data-country="${countryName}"]`).remove();
+        svg.select(`text[data-country="${canonicalName}"]`).remove();
 
-        if (currentSelection === countryName) {
+        if (currentSelection === canonicalName) {
             currentSelection = null;
         }
-        previousSelections.delete(countryName);
+        previousSelections.delete(canonicalName);
         updateStatsBox();
     } else {
         // Show tooltip temporarily
-        showTooltipTemporarily(event, countryName);
+        showTooltipTemporarily(event, canonicalName);
     }
 }
 
 // Handle country hover (show name temporarily)
 function handleCountryHover(event, d) {
-    const countryName = d.properties.name || 'Unknown';
+    const mapName = d.properties.name || 'Unknown';
+    const canonicalName = mapToCanonicalName[mapName];
+    
+    // Only show tooltip for mapped countries
+    if (!canonicalName) return;
+    
     // Only show tooltip on hover if not already selected
     if (!event.currentTarget.classList.contains('current-selection') && 
         !event.currentTarget.classList.contains('previous-selection')) {
-        showTooltipTemporarily(event, countryName);
+        showTooltipTemporarily(event, canonicalName);
     }
 }
 
 // Show tooltip temporarily
-function showTooltipTemporarily(event, countryName) {
+function showTooltipTemporarily(event, canonicalName) {
     clearTimeout(tooltipTimeout);
     
-    tooltip.textContent = countryName;
+    tooltip.textContent = canonicalName;
     tooltip.style.left = event.pageX + 10 + 'px';
     tooltip.style.top = event.pageY - 30 + 'px';
     tooltip.classList.remove('hidden');
@@ -159,14 +387,14 @@ function hideTooltip() {
     }, 300);
 }
 
-// Select country by name
-function selectCountry(countryName) {
+// Select country by canonical name
+function selectCountry(canonicalName) {
     // Move current selection to previous selections
     if (currentSelection) {
         previousSelections.add(currentSelection);
-        const prevElement = svg.select(`path[data-name="${currentSelection}"]`);
-        prevElement.classed('current-selection', false);
-        prevElement.classed('previous-selection', true);
+        const prevElements = svg.selectAll(`path[data-canonical-name="${currentSelection}"]`);
+        prevElements.classed('current-selection', false);
+        prevElements.classed('previous-selection', true);
         
         // Update label class
         const prevLabel = svg.select(`text[data-country="${currentSelection}"]`);
@@ -176,27 +404,27 @@ function selectCountry(countryName) {
     }
     
     // Set new current selection
-    currentSelection = countryName;
-    const element = svg.select(`path[data-name="${countryName}"]`);
-    element.classed('previous-selection', false);
-    element.classed('current-selection', true);
+    currentSelection = canonicalName;
+    const elements = svg.selectAll(`path[data-canonical-name="${canonicalName}"]`);
+    elements.classed('previous-selection', false);
+    elements.classed('current-selection', true);
     
     // Add country label
-    const node = element.node();
+    const node = elements.node();
     if (node) {
         const centroid = path.centroid(node.__data__);
         const g = svg.select('g');
         
         // Remove existing label if any
-        g.select(`text[data-country="${countryName}"]`).remove();
+        g.select(`text[data-country="${canonicalName}"]`).remove();
         
         // Add new label
         g.append('text')
             .attr('class', 'country-label current')
-            .attr('data-country', countryName)
+            .attr('data-country', canonicalName)
             .attr('x', centroid[0])
             .attr('y', centroid[1])
-            .text(countryName);
+            .text(canonicalName);
         
         // Slight zoom to show context (minimal zoom, keep most of map visible)
         const bounds = path.bounds(node.__data__);
@@ -284,7 +512,7 @@ function levenshteinDistance(str1, str2) {
     return matrix[len1][len2];
 }
 
-// Handle search
+// Handle search - using canonical names
 function handleSearch() {
     const query = searchInput.value.trim();
     
@@ -293,39 +521,54 @@ function handleSearch() {
         return;
     }
     
-    // Try to find exact match (case insensitive)
-    const exactMatch = countriesData.find(
-        country => country.name.toLowerCase() === query.toLowerCase()
+    const queryLower = query.toLowerCase();
+    
+    // Try to find exact match in canonical names (case insensitive)
+    const exactMatch = canonicalCountries.find(
+        name => name.toLowerCase() === queryLower
     );
     
     if (exactMatch) {
-        selectCountry(exactMatch.name);
+        selectCountry(exactMatch);
         suggestionMessage.classList.add('hidden');
         return;
     }
     
     // Try partial match (starts with)
-    const partialMatch = countriesData.find(
-        country => country.name.toLowerCase().startsWith(query.toLowerCase())
+    const partialMatch = canonicalCountries.find(
+        name => name.toLowerCase().startsWith(queryLower)
     );
     
     if (partialMatch) {
-        selectCountry(partialMatch.name);
+        selectCountry(partialMatch);
         suggestionMessage.classList.add('hidden');
         return;
     }
     
-    // No exact match - suggest closest
-    const closestMatch = findClosestCountry(query);
+    // No exact match - suggest closest using Levenshtein distance
+    let bestMatch = null;
+    let bestScore = Infinity;
     
-    if (closestMatch) {
-        suggestionMessage.innerHTML = `Did you mean <span class="suggestion-link" data-name="${closestMatch.name}">${closestMatch.name}</span>?`;
+    for (const canonicalName of canonicalCountries) {
+        const distance = levenshteinDistance(queryLower, canonicalName.toLowerCase());
+        const startsWith = canonicalName.toLowerCase().startsWith(queryLower) ? -10 : 0;
+        const score = distance + startsWith;
+        
+        if (score < bestScore) {
+            bestScore = score;
+            bestMatch = canonicalName;
+        }
+    }
+    
+    // Only suggest if reasonably close (within 40% of query length difference)
+    if (bestMatch && bestScore <= Math.max(3, query.length * 0.4)) {
+        suggestionMessage.innerHTML = `Did you mean <span class="suggestion-link" data-name="${bestMatch}">${bestMatch}</span>?`;
         suggestionMessage.classList.remove('hidden');
         
         // Add click handler to suggestion
         const suggestionLink = suggestionMessage.querySelector('.suggestion-link');
         suggestionLink.addEventListener('click', () => {
-            selectCountry(closestMatch.name);
+            selectCountry(bestMatch);
             suggestionMessage.classList.add('hidden');
         });
     } else {
