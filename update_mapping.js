@@ -15,12 +15,17 @@ for (const line of dataLines) {
   // Simple CSV parsing - handle quoted fields
   const match = line.match(/^"?([^"]*)"?,\s*"?([^"]*)"?,/);
   if (match) {
-    const mapName = match[1];
+    const mapName = match[1].trim();
     const canonicalName = match[2].trim();
     
     if (canonicalName) {
-      mapToCanonical[mapName] = canonicalName;
+      // Add to canonical set regardless
       canonicalSet.add(canonicalName);
+      
+      // Only add to mapping if map name exists
+      if (mapName) {
+        mapToCanonical[mapName] = canonicalName;
+      }
     }
   }
 }
