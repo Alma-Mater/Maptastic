@@ -155,13 +155,13 @@ body {
 /* Logo */
 #logo {
     position: absolute;
-    bottom: 30px;
-    left: 30px;
-    height: 120px;
-    width: auto;
+    top: 140px;
+    left: 24px;
+    width: 250px;
+    height: auto;
     z-index: 90;
     background: white;
-    padding: 12px;
+    padding: 16px;
     border-radius: 12px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease;
@@ -173,10 +173,10 @@ body {
 
 @media (max-width: 600px) {
     #logo {
-        height: 80px;
-        bottom: 100px;
-        left: 12px;
-        padding: 8px;
+        width: 160px;
+        top: 90px;
+        left: 8px;
+        padding: 10px;
     }
 }
 
