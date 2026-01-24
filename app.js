@@ -407,6 +407,9 @@ let currentSelection = null;
 let previousSelections = new Set();
 let countriesData = [];
 let tooltipTimeout = null;
+let labelPositions = []; // Track label positions for collision detection
+let countryAreas = new Map(); // Store country areas for sizing decisions
+let currentZoomScale = 1; // Track current zoom level for responsive labels
 
 // DOM elements
 const svg = d3.select('#map');
@@ -443,6 +446,9 @@ const zoom = d3.zoom()
     .scaleExtent([1, 8])
     .on('zoom', (event) => {
         svg.selectAll('g').attr('transform', event.transform);
+        currentZoomScale = event.transform.k;
+        // Update label sizes based on zoom
+        updateLabelsForZoom();
     });
 
 svg.call(zoom);
@@ -584,6 +590,247 @@ function hideTooltip() {
     }, 300);
 }
 
+// Calculate country area for sizing decisions
+function getCountryArea(node) {
+    const bounds = path.bounds(node.__data__);
+    const dx = bounds[1][0] - bounds[0][0];
+    const dy = bounds[1][1] - bounds[0][1];
+    return dx * dy;
+}
+
+// Check if a label position overlaps with existing labels
+function checkLabelCollision(x, y, textWidth, textHeight, excludeCountry = null) {
+    const padding = 8; // Increased padding for better separation
+    for (const pos of labelPositions) {
+        if (pos.country === excludeCountry) continue;
+        if (x < pos.x + pos.width + padding &&
+            x + textWidth + padding > pos.x &&
+            y - textHeight - padding < pos.y &&
+            y + padding > pos.y - pos.height) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Generate spiral search pattern for finding non-colliding positions
+function generateSpiralOffsets(maxRadius, step) {
+    const offsets = [];
+    for (let radius = step; radius <= maxRadius; radius += step) {
+        const numPoints = Math.max(8, Math.floor(radius / 8));
+        for (let i = 0; i < numPoints; i++) {
+            const angle = (i / numPoints) * 2 * Math.PI;
+            offsets.push({
+                dx: Math.cos(angle) * radius,
+                dy: Math.sin(angle) * radius
+            });
+        }
+    }
+    return offsets;
+}
+
+// Find optimal label position with aggressive collision avoidance
+function findOptimalLabelPosition(centroid, bounds, textWidth, textHeight, countryName) {
+    const area = (bounds[1][0] - bounds[0][0]) * (bounds[1][1] - bounds[0][1]);
+    const isSmallCountry = area < 1200;
+    const isTinyCountry = area < 400;
+    
+    // For larger countries, try to place inside first
+    if (!isSmallCountry && !isTinyCountry) {
+        if (!checkLabelCollision(centroid[0] - textWidth/2, centroid[1], textWidth, textHeight, countryName)) {
+            return { x: centroid[0], y: centroid[1], needsLeader: false };
+        }
+    }
+    
+    // Generate extensive search pattern - spiral outward from centroid
+    const maxSearchRadius = isTinyCountry ? 150 : (isSmallCountry ? 120 : 80);
+    const stepSize = isTinyCountry ? 15 : 20;
+    const spiralOffsets = generateSpiralOffsets(maxSearchRadius, stepSize);
+    
+    // Add cardinal and diagonal directions at various distances first (preferred)
+    const preferredOffsets = [];
+    const distances = isTinyCountry ? [25, 40, 60, 80, 100, 130] : [20, 35, 50, 70, 90];
+    
+    for (const dist of distances) {
+        // Prefer right, then upper-right, then above, etc.
+        preferredOffsets.push(
+            { dx: dist, dy: 0 },           // Right
+            { dx: dist * 0.7, dy: -dist * 0.7 },  // Upper right
+            { dx: 0, dy: -dist },          // Above
+            { dx: -dist * 0.7, dy: -dist * 0.7 }, // Upper left
+            { dx: -dist, dy: 0 },          // Left
+            { dx: -dist * 0.7, dy: dist * 0.7 },  // Lower left
+            { dx: 0, dy: dist },           // Below
+            { dx: dist * 0.7, dy: dist * 0.7 }    // Lower right
+        );
+    }
+    
+    // Combine preferred with spiral for comprehensive search
+    const allOffsets = [...preferredOffsets, ...spiralOffsets];
+    
+    for (const offset of allOffsets) {
+        const testX = centroid[0] + offset.dx;
+        const testY = centroid[1] + offset.dy;
+        if (!checkLabelCollision(testX - textWidth/2, testY, textWidth, textHeight, countryName)) {
+            const dist = Math.sqrt(offset.dx * offset.dx + offset.dy * offset.dy);
+            return { 
+                x: testX, 
+                y: testY, 
+                needsLeader: isSmallCountry || isTinyCountry || dist > 25
+            };
+        }
+    }
+    
+    // Last resort: find the position with minimum overlap
+    let bestPos = { x: centroid[0] + 60, y: centroid[1] - 30, needsLeader: true };
+    let minOverlaps = Infinity;
+    
+    for (const offset of allOffsets) {
+        const testX = centroid[0] + offset.dx;
+        const testY = centroid[1] + offset.dy;
+        let overlapCount = 0;
+        
+        for (const pos of labelPositions) {
+            if (pos.country === countryName) continue;
+            if (testX - textWidth/2 < pos.x + pos.width + 4 &&
+                testX + textWidth/2 + 4 > pos.x &&
+                testY - textHeight < pos.y &&
+                testY > pos.y - pos.height) {
+                overlapCount++;
+            }
+        }
+        
+        if (overlapCount < minOverlaps) {
+            minOverlaps = overlapCount;
+            bestPos = { x: testX, y: testY, needsLeader: true };
+        }
+    }
+    
+    return bestPos;
+}
+
+// Add a smart label with optional leader line
+function addSmartLabel(g, node, countryName, isCurrent) {
+    const centroid = path.centroid(node.__data__);
+    const bounds = path.bounds(node.__data__);
+    const area = (bounds[1][0] - bounds[0][0]) * (bounds[1][1] - bounds[0][1]);
+    
+    // Base font size calculation (much smaller at default zoom)
+    let baseFontSize;
+    if (area > 8000) {
+        baseFontSize = Math.min(10, Math.max(6, 10 - countryName.length * 0.1));
+    } else if (area > 3000) {
+        baseFontSize = Math.min(8, Math.max(5, 8 - countryName.length * 0.08));
+    } else if (area > 1000) {
+        baseFontSize = Math.min(6, Math.max(4, 6 - countryName.length * 0.06));
+    } else if (area > 300) {
+        baseFontSize = Math.min(5, Math.max(3.5, 5 - countryName.length * 0.04));
+    } else {
+        baseFontSize = Math.min(4, Math.max(3, 4 - countryName.length * 0.03));
+    }
+    
+    // Scale font size with zoom level - labels get larger as you zoom in
+    const zoomFactor = Math.pow(currentZoomScale, 0.4); // Gentler scaling
+    let fontSize = baseFontSize * zoomFactor;
+    
+    // At high zoom, make labels larger and more readable
+    if (currentZoomScale > 2) {
+        fontSize = Math.min(fontSize * 1.2, 16);
+    }
+    
+    if (isCurrent) fontSize = Math.min(fontSize * 1.15, 18);
+    
+    // Estimate text dimensions
+    const charWidth = fontSize * 0.5;
+    const textWidth = countryName.length * charWidth;
+    const textHeight = fontSize + 2;
+    
+    // Try to fit label inside country first
+    const countryWidth = bounds[1][0] - bounds[0][0];
+    const countryHeight = bounds[1][1] - bounds[0][1];
+    const fitsInside = textWidth < countryWidth * 0.8 && textHeight < countryHeight * 0.6;
+    
+    let pos;
+    if (fitsInside && area > 500) {
+        // Label fits inside - place at centroid
+        pos = { x: centroid[0], y: centroid[1], needsLeader: false };
+    } else {
+        // Label needs offset position
+        pos = findOptimalLabelPosition(centroid, bounds, textWidth, textHeight, countryName);
+    }
+    
+    // Remove old label position tracking for this country
+    labelPositions = labelPositions.filter(p => p.country !== countryName);
+    
+    // Add leader line if needed (only for small/offset labels)
+    if (pos.needsLeader && area < 800) {
+        g.append('line')
+            .attr('class', `leader-line ${isCurrent ? 'current' : 'previous'}`)
+            .attr('data-leader', countryName)
+            .attr('x1', centroid[0])
+            .attr('y1', centroid[1])
+            .attr('x2', pos.x)
+            .attr('y2', pos.y - fontSize/3);
+    }
+    
+    // Add background rectangle for readability
+    g.append('rect')
+        .attr('class', `label-bg ${isCurrent ? 'current' : 'previous'}`)
+        .attr('data-label-bg', countryName)
+        .attr('x', pos.x - textWidth/2 - 2)
+        .attr('y', pos.y - textHeight + 2)
+        .attr('width', textWidth + 4)
+        .attr('height', textHeight + 1)
+        .attr('rx', 1.5);
+    
+    // Add text label
+    g.append('text')
+        .attr('class', `country-label ${isCurrent ? 'current' : 'previous'}`)
+        .attr('data-country', countryName)
+        .attr('x', pos.x)
+        .attr('y', pos.y)
+        .attr('font-size', fontSize + 'px')
+        .text(countryName);
+    
+    // Track this label position
+    labelPositions.push({
+        country: countryName,
+        x: pos.x - textWidth/2,
+        y: pos.y,
+        width: textWidth,
+        height: textHeight
+    });
+}
+
+// Update all labels when zoom changes
+function updateLabelsForZoom() {
+    const g = svg.select('g');
+    
+    // Update current selection label
+    if (currentSelection) {
+        const elements = svg.selectAll(`path[data-canonical-name="${currentSelection}"]`);
+        const node = elements.node();
+        if (node) {
+            g.select(`text[data-country="${currentSelection}"]`).remove();
+            g.select(`line[data-leader="${currentSelection}"]`).remove();
+            g.select(`rect[data-label-bg="${currentSelection}"]`).remove();
+            addSmartLabel(g, node, currentSelection, true);
+        }
+    }
+    
+    // Update previous selection labels
+    previousSelections.forEach(countryName => {
+        const elements = svg.selectAll(`path[data-canonical-name="${countryName}"]`);
+        const node = elements.node();
+        if (node) {
+            g.select(`text[data-country="${countryName}"]`).remove();
+            g.select(`line[data-leader="${countryName}"]`).remove();
+            g.select(`rect[data-label-bg="${countryName}"]`).remove();
+            addSmartLabel(g, node, countryName, false);
+        }
+    });
+}
+
 // Select country by canonical name
 function selectCountry(canonicalName) {
     // Move current selection to previous selections
@@ -593,10 +840,20 @@ function selectCountry(canonicalName) {
         prevElements.classed('current-selection', false);
         prevElements.classed('previous-selection', true);
         
-        // Update label class
-        const prevLabel = svg.select(`text[data-country="${currentSelection}"]`);
+        // Update label to previous style
+        const g = svg.select('g');
+        const prevLabel = g.select(`text[data-country="${currentSelection}"]`);
+        const prevBg = g.select(`rect[data-label-bg="${currentSelection}"]`);
+        const prevLeader = g.select(`line[data-leader="${currentSelection}"]`);
+        
         if (!prevLabel.empty()) {
             prevLabel.classed('current', false).classed('previous', true);
+        }
+        if (!prevBg.empty()) {
+            prevBg.classed('current', false).classed('previous', true);
+        }
+        if (!prevLeader.empty()) {
+            prevLeader.classed('current', false).classed('previous', true);
         }
     }
     
@@ -606,22 +863,18 @@ function selectCountry(canonicalName) {
     elements.classed('previous-selection', false);
     elements.classed('current-selection', true);
     
-    // Add country label
+    // Add country label with smart positioning
     const node = elements.node();
     if (node) {
-        const centroid = path.centroid(node.__data__);
         const g = svg.select('g');
         
-        // Remove existing label if any
+        // Remove existing label and leader line if any
         g.select(`text[data-country="${canonicalName}"]`).remove();
+        g.select(`line[data-leader="${canonicalName}"]`).remove();
+        g.select(`rect[data-label-bg="${canonicalName}"]`).remove();
         
-        // Add new label
-        g.append('text')
-            .attr('class', 'country-label current')
-            .attr('data-country', canonicalName)
-            .attr('x', centroid[0])
-            .attr('y', centroid[1])
-            .text(canonicalName);
+        // Add smart label
+        addSmartLabel(g, node, canonicalName, true);
         
         // Slight zoom to show context (minimal zoom, keep most of map visible)
         const bounds = path.bounds(node.__data__);
@@ -792,14 +1045,17 @@ resetBtn.addEventListener('click', () => {
     // Clear all selections
     currentSelection = null;
     previousSelections.clear();
+    labelPositions = []; // Clear label position tracking
     
     // Remove all highlight classes
     svg.selectAll('.country')
         .classed('current-selection', false)
         .classed('previous-selection', false);
     
-    // Remove all country labels
+    // Remove all country labels, backgrounds, and leader lines
     svg.selectAll('.country-label').remove();
+    svg.selectAll('.label-bg').remove();
+    svg.selectAll('.leader-line').remove();
     
     // Reset zoom
     svg.transition()
