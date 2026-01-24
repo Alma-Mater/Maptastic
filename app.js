@@ -68,6 +68,7 @@ const mapToCanonicalName = {
   "Germany": "Germany",
   "Ghana": "Ghana",
   "Greece": "Greece",
+  "Greenland": "Denmark",
   "Grenada": "Grenada",
   "Guatemala": "Guatemala",
   "Guinea": "Guinea",
@@ -162,6 +163,7 @@ const mapToCanonicalName = {
   "Slovenia": "Slovenia",
   "Solomon Is.": "Solomon Islands",
   "Somalia": "Somalia",
+  "Somaliland": "Somalia",
   "South Africa": "South Africa",
   "South Korea": "South Korea",
   "Spain": "Spain",
@@ -195,9 +197,211 @@ const mapToCanonicalName = {
   "Vatican": "Vatican City",
   "Venezuela": "Venezuela",
   "Vietnam": "Vietnam",
+  "W. Sahara": "Morocco",
   "Yemen": "Yemen",
   "Zambia": "Zambia",
   "Zimbabwe": "Zimbabwe",
+};
+
+// Fun facts for each country
+const countryFunFacts = {
+  "Afghanistan": "Afghanistan 🏏 - Afghanistan's national cricket team rose from refugee camps to qualify for multiple Cricket World Cups in just two decades.",
+  "Albania": "Albania 🏰 - Albania has more bunkers per capita than any other country, with over 750,000 concrete bunkers built during the Cold War.",
+  "Algeria": "Algeria 🏜️ - Algeria is the largest country in Africa, and over 90% of it is covered by the Sahara Desert.",
+  "Andorra": "Andorra ☮️ - Andorra has no army and has been at peace for over 700 years, making it one of the world's most peaceful nations.",
+  "Angola": "Angola 💎 - Angola is one of the world's top diamond producers and the Lulo Rose, one of the largest pink diamonds ever found, was discovered here in 2022.",
+  "Antigua & Barbuda": "Antigua & Barbuda 🏖️ - Antigua boasts 365 beaches—one for every day of the year.",
+  "Argentina": "Argentina 🛣️ - Argentina is home to the world's widest avenue, Avenida 9 de Julio in Buenos Aires, which spans about 140 meters across.",
+  "Armenia": "Armenia 🍷 - Armenia is home to the world's oldest known winery, dating back over 6,000 years.",
+  "Australia": "Australia 🐕 - Australia has the world's longest fence, the Dingo Fence, stretching over 5,600 kilometers.",
+  "Austria": "Austria 🎵 - Austria has produced more famous classical composers per capita than any other country, including Mozart, Strauss, and Schubert.",
+  "Azerbaijan": "Azerbaijan 🔥 - Azerbaijan is known as the \"Land of Fire\" due to natural gas fires that blaze continuously on hillsides.",
+  "Bahamas": "Bahamas 🐷 - The Bahamas is home to swimming pigs on Big Major Cay, where feral pigs swim in the crystal-clear waters.",
+  "Bahrain": "Bahrain 🌳 - Bahrain is home to the \"Tree of Life,\" a 400-year-old mesquite tree thriving alone in the desert with no apparent water source.",
+  "Bangladesh": "Bangladesh 🐅 - Bangladesh is home to the Sundarbans, the largest mangrove forest in the world and habitat of the Royal Bengal Tiger.",
+  "Barbados": "Barbados 🥃 - Barbados is the birthplace of rum, and Mount Gay Rum, established in 1703, is the world's oldest rum brand.",
+  "Belarus": "Belarus 🦬 - Belarus is home to Białowieża Forest, one of Europe's last primeval forests and home to the European bison.",
+  "Belgium": "Belgium 🍫 - Belgium produces over 220,000 tons of chocolate per year and has more than 2,000 chocolatiers.",
+  "Belize": "Belize 🕳️ - Belize is home to the Great Blue Hole, a giant marine sinkhole over 300 meters wide and 125 meters deep.",
+  "Benin": "Benin 🔮 - Benin is the birthplace of Voodoo, which is still practiced as an official religion today.",
+  "Bhutan": "Bhutan 😊 - Bhutan is the only country in the world that measures Gross National Happiness instead of GDP.",
+  "Bolivia": "Bolivia 🧂 - Bolivia's Salar de Uyuni is the world's largest salt flat, spanning over 10,000 square kilometers and creating mirror-like reflections.",
+  "Bosnia & Herzegovina": "Bosnia & Herzegovina ⛪ - Bosnia has a town called Međugorje that reportedly experiences daily apparitions of the Virgin Mary, attracting millions of pilgrims.",
+  "Botswana": "Botswana 🐘 - Botswana has the world's largest elephant population, with over 130,000 elephants.",
+  "Brazil": "Brazil ⚽ - Brazil has won the FIFA World Cup 5 times, more than any other nation.",
+  "Brunei": "Brunei 🕌 - Brunei's Sultan has a car collection worth over $5 billion with more than 7,000 vehicles.",
+  "Bulgaria": "Bulgaria 🌹 - Bulgaria is the world's leading producer of rose oil, used in perfumes worldwide.",
+  "Burkina": "Burkina Faso 🎬 - Burkina Faso hosts Africa's largest film festival, FESPACO, celebrating African cinema.",
+  "Burundi": "Burundi 🥁 - Burundi's traditional drumming has been recognized by UNESCO as part of the world's intangible cultural heritage.",
+  "Cambodia": "Cambodia 🏛️ - Cambodia's Angkor Wat is the largest religious monument in the world.",
+  "Cameroon": "Cameroon ⚽ - Cameroon was the first African nation to reach the FIFA World Cup quarterfinals in 1990.",
+  "Canada": "Canada 🍁 - Canada has more lakes than the rest of the world combined, with over 3 million lakes.",
+  "Cape Verde": "Cape Verde 🎵 - Cape Verde is the birthplace of morna music, made famous by singer Cesária Évora.",
+  "Central African Republic": "Central African Republic 🦋 - Central African Republic has some of the world's rarest butterflies in its rainforests.",
+  "Chad": "Chad 🏜️ - Chad is home to the Ennedi Plateau, featuring stunning rock formations and ancient cave paintings.",
+  "Chile": "Chile 🌶️ - Chile is the longest north-south country in the world, stretching over 4,300 kilometers.",
+  "China": "China 🐼 - China is home to giant pandas, found nowhere else in the wild, with only about 1,800 remaining.",
+  "Colombia": "Colombia ☕ - Colombia produces some of the world's best coffee and is the third-largest coffee producer globally.",
+  "Comoros": "Comoros 🌺 - Comoros is known as the \"Perfume Islands\" and produces ylang-ylang, a key ingredient in many perfumes.",
+  "Republic of the Congo": "Republic of the Congo 🦍 - The Congo is home to lowland gorillas and bonobo apes found nowhere else.",
+  "Costa Rica": "Costa Rica 🌿 - Costa Rica has no standing army and dedicates its resources to education and conservation instead.",
+  "Croatia": "Croatia ⚽ - Croatia, with a population of just 4 million, finished as runners-up in the 2018 FIFA World Cup.",
+  "Cuba": "Cuba 🚗 - Cuba has thousands of classic American cars from the 1950s still running on its streets.",
+  "Cyprus": "Cyprus 🏖️ - Cyprus is the birthplace of Aphrodite, the Greek goddess of love and beauty.",
+  "Czech Republic": "Czech Republic 🍺 - Czech Republic has the highest beer consumption per capita in the world.",
+  "Democratic Republic of Congo": "Democratic Republic of Congo 🦍 - DRC is home to mountain gorillas and bonobos, our closest living relatives.",
+  "Denmark": "Denmark 🚴 - Denmark is one of the happiest countries in the world and has more bicycles than cars.",
+  "Djibouti": "Djibouti 🌊 - Djibouti's Lake Assal is the lowest point in Africa and one of the saltiest bodies of water on Earth.",
+  "Dominica": "Dominica 🦜 - Dominica is home to the rare Sisserou parrot, found nowhere else in the world.",
+  "Dominican Republic": "Dominican Republic ⚾ - The Dominican Republic has produced more Major League Baseball players than any other country outside the US.",
+  "East Timor": "East Timor 🏝️ - East Timor is one of the world's youngest countries, gaining independence in 2002.",
+  "Ecuador": "Ecuador 🐢 - Ecuador's Galápagos Islands inspired Charles Darwin's theory of evolution.",
+  "Egypt": "Egypt 🏛️ - Egypt's pyramids are the only remaining Wonder of the Ancient World.",
+  "El Salvador": "El Salvador 🌋 - El Salvador has over 20 volcanoes and is known as the \"Land of Volcanoes.\"",
+  "Equatorial Guinea": "Equatorial Guinea 🌴 - Equatorial Guinea is the only Spanish-speaking country in Africa.",
+  "Eritrea": "Eritrea 🚴 - Eritrea has a strong cycling culture, and its national team competes internationally.",
+  "Estonia": "Estonia 💻 - Estonia is one of the most digitally advanced countries, offering e-residency to anyone in the world.",
+  "Swaziland": "Swaziland 👑 - Eswatini (Swaziland) is one of the world's last absolute monarchies.",
+  "Ethiopia": "Ethiopia ☕ - Ethiopia is the birthplace of coffee, and the coffee ceremony is an important cultural tradition.",
+  "Fiji": "Fiji 🏝️ - Fiji is made up of over 300 islands, and its waters are home to some of the world's best coral reefs.",
+  "Finland": "Finland 🎅 - Finland is officially the home of Santa Claus, who lives in Rovaniemi in Lapland.",
+  "France": "France 🗼 - France is the most visited country in the world, attracting over 90 million tourists annually.",
+  "Gabon": "Gabon 🦍 - Gabon has created 13 national parks, protecting 11% of its territory and its gorilla populations.",
+  "Gambia": "Gambia 🌊 - The Gambia is the smallest country in mainland Africa, almost entirely surrounded by Senegal.",
+  "Georgia": "Georgia 🍷 - Georgia has an 8,000-year-old winemaking tradition and is considered the birthplace of wine.",
+  "Germany": "Germany 🍺 - Germany has over 1,500 breweries and 5,000 different beer varieties.",
+  "Ghana": "Ghana 🍫 - Ghana is one of the world's largest cocoa producers, supplying chocolate to the world.",
+  "Greece": "Greece 🏛️ - Greece has more than 6,000 islands, though only 227 are inhabited.",
+  "Grenada": "Grenada 🌰 - Grenada is known as the \"Spice Isle\" and is a leading producer of nutmeg.",
+  "Guatemala": "Guatemala 🌋 - Guatemala has 37 volcanoes, three of which are still active.",
+  "Guinea": "Guinea ⛰️ - Guinea has some of the world's largest bauxite reserves, used to make aluminum.",
+  "Guinea-Bissau": "Guinea-Bissau 🥜 - Guinea-Bissau is one of the world's major cashew producers.",
+  "Guyana": "Guyana 💦 - Guyana is home to Kaieteur Falls, one of the world's most powerful waterfalls.",
+  "Haiti": "Haiti 🗽 - Haiti was the first independent black republic and the second independent nation in the Americas.",
+  "Honduras": "Honduras 🏛️ - Honduras is home to Copán, one of the most important sites of Mayan civilization.",
+  "Hungary": "Hungary ♨️ - Hungary has more thermal springs than any other country, with over 1,000 springs.",
+  "Iceland": "Iceland 🌋 - Iceland has more than 200 volcanoes and is one of the most volcanically active places on Earth.",
+  "India": "India 🐅 - India is home to the Bengal tiger and has the world's largest population of wild tigers.",
+  "Indonesia": "Indonesia 🌋 - Indonesia has more volcanoes than any other country, with over 130 active volcanoes.",
+  "Iran": "Iran 🏛️ - Iran was home to the Persian Empire, one of the world's greatest ancient civilizations.",
+  "Iraq": "Iraq 📜 - Iraq is home to ancient Mesopotamia, often called the \"Cradle of Civilization.\"",
+  "Ireland": "Ireland 🍀 - Ireland has no snakes, according to legend, because St. Patrick drove them all out.",
+  "Israel": "Israel 🏜️ - Israel has made the desert bloom with innovative drip irrigation technology.",
+  "Italy": "Italy 🍕 - Italy has more UNESCO World Heritage Sites than any other country in the world.",
+  "Ivory Coast": "Ivory Coast 🍫 - Ivory Coast is the world's largest cocoa producer, supplying about 40% of global cocoa.",
+  "Jamaica": "Jamaica 🏃 - Jamaica has produced the world's fastest runners, including Usain Bolt, the fastest man ever recorded.",
+  "Japan": "Japan 🗻 - Japan has more than 6,800 islands and is home to Mount Fuji, an active volcano.",
+  "Jordan": "Jordan 🏛️ - Jordan is home to Petra, an ancient city carved into rose-red cliffs over 2,000 years ago.",
+  "Kazakhstan": "Kazakhstan 🚀 - Kazakhstan is home to the Baikonur Cosmodrome, the world's first and largest space launch facility.",
+  "Kenya": "Kenya 🦁 - Kenya is famous for its wildlife and hosts the Great Migration, one of nature's most spectacular events.",
+  "Kiribati": "Kiribati 🌅 - Kiribati is one of the first places to see the sunrise each day.",
+  "Kosovo": "Kosovo ⛰️ - Kosovo is one of Europe's youngest countries, declaring independence in 2008.",
+  "Kuwait": "Kuwait 🛢️ - Kuwait has the world's sixth-largest oil reserves.",
+  "Kyrgyzstan": "Kyrgyzstan 🏔️ - Kyrgyzstan is one of the most mountainous countries, with 90% covered by mountains.",
+  "Laos": "Laos 🐘 - Laos was once known as the \"Land of a Million Elephants.\"",
+  "Latvia": "Latvia 🌲 - Latvia is one of the greenest countries in Europe, with over half its territory covered by forests.",
+  "Lebanon": "Lebanon 🌲 - Lebanon's cedar trees are mentioned over 70 times in the Bible and are a national symbol.",
+  "Lesotho": "Lesotho ⛰️ - Lesotho is the only country entirely above 1,000 meters elevation.",
+  "Liberia": "Liberia 🗽 - Liberia was founded by freed American slaves and is Africa's oldest republic.",
+  "Libya": "Libya 🏜️ - Libya is mostly desert, with over 90% of the country covered by the Sahara.",
+  "Liechtenstein": "Liechtenstein 👑 - Liechtenstein is the world's sixth-smallest country and one of the richest per capita.",
+  "Lithuania": "Lithuania 🏀 - Basketball is the national sport of Lithuania, and the country consistently ranks among the world's best.",
+  "Luxembourg": "Luxembourg 💰 - Luxembourg has the highest GDP per capita in the European Union.",
+  "North Macedonia": "North Macedonia 🏛️ - North Macedonia is home to Lake Ohrid, one of Europe's oldest and deepest lakes.",
+  "Madagascar": "Madagascar 🐒 - Madagascar is home to lemurs found nowhere else on Earth, with over 100 species.",
+  "Malawi": "Malawi 🏞️ - Malawi is home to Lake Malawi, which contains more fish species than any other lake in the world.",
+  "Malaysia": "Malaysia 🌴 - Malaysia is home to the world's oldest rainforest, over 130 million years old.",
+  "Maldives": "Maldives 🏝️ - The Maldives is the flattest country in the world, with an average elevation of just 1.5 meters.",
+  "Mali": "Mali 🏛️ - Mali was home to the ancient city of Timbuktu, a center of Islamic learning and trade.",
+  "Malta": "Malta 🏛️ - Malta has some of the world's oldest free-standing structures, predating Stonehenge and the pyramids.",
+  "Marshall Islands": "Marshall Islands 🏝️ - The Marshall Islands were used for nuclear testing, and the Bikini Atoll is now a UNESCO World Heritage site.",
+  "Mauritania": "Mauritania 🏜️ - Mauritania has the longest train in the world, stretching up to 3 kilometers long.",
+  "Mauritius": "Mauritius 🦤 - Mauritius was home to the dodo bird, which went extinct in the 17th century.",
+  "Mexico": "Mexico 🌮 - Mexico gave the world chocolate, corn, and chili peppers.",
+  "Micronesia": "Micronesia 🏝️ - Micronesia consists of over 600 islands spread across the Pacific Ocean.",
+  "Moldova": "Moldova 🍷 - Moldova has the world's largest wine cellar, stretching over 200 kilometers underground.",
+  "Monaco": "Monaco 🏎️ - Monaco is the second-smallest country in the world and hosts the famous Formula 1 Grand Prix.",
+  "Mongolia": "Mongolia 🐎 - Mongolia has more horses than people and is the birthplace of Genghis Khan.",
+  "Montenegro": "Montenegro ⛰️ - Montenegro's name means \"Black Mountain\" and it's home to stunning mountain scenery.",
+  "Morocco": "Morocco 🏜️ - Morocco is the gateway to Africa and has the world's oldest continuously operating university.",
+  "Mozambique": "Mozambique 🐠 - Mozambique's coastline is over 2,500 kilometers long with pristine beaches.",
+  "Myanmar": "Myanmar 🏛️ - Myanmar has over 2,000 ancient temples in Bagan, one of the richest archaeological sites in Asia.",
+  "Namibia": "Namibia 🏜️ - Namibia is home to the world's oldest desert, the Namib Desert, at over 55 million years old.",
+  "Nauru": "Nauru 🏝️ - Nauru is the world's smallest island nation and the third-smallest country overall.",
+  "Nepal": "Nepal 🏔️ - Nepal is home to Mount Everest, the world's highest peak at 8,849 meters.",
+  "Netherlands": "Netherlands 🌷 - The Netherlands has more bicycles than people and is famous for its tulips and windmills.",
+  "New Zealand": "New Zealand 🥝 - New Zealand has more sheep than people, with about 6 sheep per person.",
+  "Nicaragua": "Nicaragua 🌋 - Nicaragua has 19 active volcanoes and is known as the \"Land of Lakes and Volcanoes.\"",
+  "Niger": "Niger 🏜️ - Niger is home to some of the world's largest uranium deposits.",
+  "Nigeria": "Nigeria 🎬 - Nigeria's film industry, Nollywood, is the second-largest in the world by number of films produced.",
+  "North Korea": "North Korea 🏛️ - North Korea has its own calendar based on Kim Il-sung's birth year (1912).",
+  "Norway": "Norway 🏔️ - Norway has the world's longest road tunnel, the Lærdal Tunnel, at 24.5 kilometers long.",
+  "Oman": "Oman 🏜️ - Oman is one of the oldest continuously inhabited places on Earth, with evidence of human settlement dating back 106,000 years.",
+  "Pakistan": "Pakistan 🏔️ - Pakistan is home to K2, the world's second-highest mountain and the most difficult to climb.",
+  "Palau": "Palau 🐠 - Palau created the world's first shark sanctuary, protecting sharks across its waters.",
+  "Palestine": "Palestine 🏛️ - Palestine is home to some of the world's oldest continuously inhabited cities, including Jericho.",
+  "Panama": "Panama 🚢 - The Panama Canal connects the Atlantic and Pacific Oceans and is one of the world's most important waterways.",
+  "Papua New Guinea": "Papua New Guinea 🦜 - Papua New Guinea has over 800 languages, the most linguistic diversity of any country.",
+  "Paraguay": "Paraguay 🌿 - Paraguay is one of only two landlocked countries in South America.",
+  "Peru": "Peru 🏔️ - Peru is home to Machu Picchu, the ancient Incan city high in the Andes Mountains.",
+  "Philippines": "Philippines 🏝️ - The Philippines has over 7,600 islands and is the world's second-largest archipelago.",
+  "Poland": "Poland 🏰 - Poland has 17 UNESCO World Heritage Sites, including the Wieliczka Salt Mine.",
+  "Portugal": "Portugal 🌊 - Portugal is the westernmost country in mainland Europe and a pioneer in maritime exploration.",
+  "Qatar": "Qatar ⚽ - Qatar hosted the 2022 FIFA World Cup and has the world's highest GDP per capita.",
+  "Romania": "Romania 🏰 - Romania is home to Bran Castle, often associated with the Dracula legend.",
+  "Russia": "Russia 🐻 - Russia is the world's largest country, spanning 11 time zones.",
+  "Rwanda": "Rwanda 🦍 - Rwanda is home to mountain gorillas, with conservation efforts helping their population grow.",
+  "Saint Kitts and Nevis": "Saint Kitts and Nevis 🏝️ - Saint Kitts and Nevis is the smallest sovereign state in the Western Hemisphere.",
+  "Saint Lucia": "Saint Lucia 🌋 - Saint Lucia is the only country named after a woman.",
+  "Saint Vincent and the Grenadines": "Saint Vincent and the Grenadines 🏝️ - The country consists of 32 islands and cays.",
+  "Samoa": "Samoa 🌅 - Samoa was one of the first places to see the sunrise each day until 2011, when it switched time zones.",
+  "San Marino": "San Marino 🏰 - San Marino is the world's oldest republic, founded in 301 AD.",
+  "Sao Tome and Principe": "São Tomé and Príncipe 🍫 - São Tomé and Príncipe is Africa's second-smallest country and a major cocoa producer.",
+  "Saudi Arabia": "Saudi Arabia 🕌 - Saudi Arabia is home to Islam's two holiest cities, Mecca and Medina.",
+  "Senegal": "Senegal 🎵 - Senegal is famous for its vibrant music scene and is the birthplace of Youssou N'Dour.",
+  "Serbia": "Serbia 🏰 - Serbia has one of the oldest cities in Europe, with Belgrade being over 7,000 years old.",
+  "Seychelles": "Seychelles 🏝️ - Seychelles is home to the coco de mer, which produces the largest seed in the plant kingdom.",
+  "Sierra Leone": "Sierra Leone 💎 - Sierra Leone is known for its diamond mines and beautiful beaches.",
+  "Singapore": "Singapore 🦁 - Singapore is one of only three city-states in the world and is known for its cleanliness and efficiency.",
+  "Slovakia": "Slovakia 🏰 - Slovakia has the highest number of castles per capita in the world.",
+  "Slovenia": "Slovenia 🐉 - Slovenia's capital, Ljubljana, is said to be protected by a dragon, the city's symbol.",
+  "Solomon Islands": "Solomon Islands 🏝️ - The Solomon Islands is made up of nearly 1,000 islands.",
+  "Somalia": "Somalia 🐪 - Somalia has the longest coastline in mainland Africa at over 3,300 kilometers.",
+  "South Africa": "South Africa 🦏 - South Africa is home to the \"Big Five\" game animals: lion, leopard, rhino, elephant, and buffalo.",
+  "South Korea": "South Korea 🎮 - South Korea is the world's most connected country and a global leader in technology.",
+  "South Sudan": "South Sudan 🦒 - South Sudan is the world's youngest country, gaining independence in 2011.",
+  "Spain": "Spain 🏖️ - Spain is the world's second-most visited country and invented the guitar as we know it.",
+  "Sri Lanka": "Sri Lanka 🐘 - Sri Lanka is home to the largest gathering of Asian elephants in the world.",
+  "Sudan": "Sudan ⛰️ - Sudan has more pyramids than Egypt, with over 200 ancient pyramids.",
+  "Suriname": "Suriname 🌴 - Suriname is the smallest country in South America and over 90% covered by rainforest.",
+  "Sweden": "Sweden 🎵 - Sweden has produced more pop music exports per capita than any other country, including ABBA.",
+  "Switzerland": "Switzerland 🏔️ - Switzerland has more than 7,000 lakes and is famous for its neutrality and watches.",
+  "Syria": "Syria 🏛️ - Syria is home to Damascus, one of the world's oldest continuously inhabited cities.",
+  "Taiwan": "Taiwan 🏔️ - Taiwan is home to some of the world's tallest mountains and produces 90% of the world's semiconductors.",
+  "Tajikistan": "Tajikistan 🏔️ - Tajikistan is over 90% mountainous, with half the country above 3,000 meters elevation.",
+  "Tanzania": "Tanzania 🐘 - Tanzania is home to Mount Kilimanjaro, Africa's highest peak, and the Serengeti.",
+  "Thailand": "Thailand 🐘 - Thailand is the only Southeast Asian country never colonized by a European power.",
+  "Togo": "Togo 🌴 - Togo is one of the world's smallest countries and is shaped like a thin vertical strip.",
+  "Tonga": "Tonga 👑 - Tonga is the only Pacific island nation that was never formally colonized.",
+  "Trinidad & Tobago": "Trinidad & Tobago 🎵 - Trinidad and Tobago is the birthplace of steelpan, the only acoustic instrument invented in the 20th century.",
+  "Tunisia": "Tunisia 🏛️ - Tunisia is home to ancient Carthage, once a powerful Mediterranean empire.",
+  "Turkey": "Turkey 🏛️ - Turkey spans two continents, Europe and Asia, connected by the Bosphorus Strait.",
+  "Turkmenistan": "Turkmenistan 🔥 - Turkmenistan has the \"Door to Hell,\" a natural gas crater that's been burning for over 50 years.",
+  "Tuvalu": "Tuvalu 🏝️ - Tuvalu is one of the world's smallest and most remote countries, consisting of 9 islands.",
+  "Uganda": "Uganda 🦍 - Uganda is home to more than half of the world's remaining mountain gorillas.",
+  "Ukraine": "Ukraine 🌻 - Ukraine is the world's largest producer of sunflower oil.",
+  "United Arab Emirates": "United Arab Emirates 🏙️ - The UAE is home to the world's tallest building, the Burj Khalifa, at 828 meters.",
+  "United Kingdom": "United Kingdom 👑 - The UK has more castles per square mile than any other country.",
+  "United States of America": "United States of America 🦅 - The USA has the world's largest economy and more Nobel Prize winners than any other country.",
+  "Uruguay": "Uruguay ⚽ - Uruguay won the first-ever FIFA World Cup in 1930, hosting and winning the tournament.",
+  "Uzbekistan": "Uzbekistan 🏛️ - Uzbekistan is home to the ancient Silk Road cities of Samarkand and Bukhara.",
+  "Vanuatu": "Vanuatu 🌋 - Vanuatu is one of the world's most earthquake-prone countries and has several active volcanoes.",
+  "Vatican City": "Vatican City ⛪ - Vatican City is the world's smallest country by both area and population.",
+  "Venezuela": "Venezuela 💦 - Venezuela is home to Angel Falls, the world's highest waterfall at 979 meters.",
+  "Vietnam": "Vietnam 🏞️ - Vietnam's Ha Long Bay has over 1,600 limestone islands and is a UNESCO World Heritage Site.",
+  "Yemen": "Yemen ☕ - Yemen is believed to be where coffee was first cultivated for drinking.",
+  "Zambia": "Zambia 💦 - Zambia is home to Victoria Falls, one of the world's largest waterfalls.",
+  "Zimbabwe": "Zimbabwe 🏛️ - Zimbabwe is home to the ancient ruins of Great Zimbabwe, a UNESCO World Heritage Site."
 };
 
 // Canonical list of countries (user-facing names from mapping)
@@ -418,6 +622,7 @@ const searchInput = document.getElementById('country-search');
 const searchBtn = document.getElementById('search-btn');
 const suggestionMessage = document.getElementById('suggestion-message');
 const resetBtn = document.getElementById('reset-btn');
+const funFactContainer = document.getElementById('fun-fact-container');
 
 // Map dimensions
 const width = window.innerWidth;
@@ -893,7 +1098,21 @@ function selectCountry(canonicalName) {
     // Clear search
     searchInput.value = '';
     suggestionMessage.classList.add('hidden');
+    
+    // Display fun fact for this country
+    displayFunFact(canonicalName);
+    
     updateStatsBox();
+}
+
+// Display fun fact for a country
+function displayFunFact(countryName) {
+    const funFact = countryFunFacts[countryName];
+    if (funFact && funFactContainer) {
+        funFactContainer.textContent = funFact;
+        funFactContainer.classList.remove('hidden');
+        funFactContainer.classList.add('visible');
+    }
 }
 
 // Find closest country match using Levenshtein distance
@@ -1065,6 +1284,13 @@ resetBtn.addEventListener('click', () => {
     // Clear search
     searchInput.value = '';
     suggestionMessage.classList.add('hidden');
+    
+    // Hide fun fact
+    if (funFactContainer) {
+        funFactContainer.classList.add('hidden');
+        funFactContainer.classList.remove('visible');
+    }
+    
     updateStatsBox();
 });
 
